@@ -23,16 +23,23 @@ namespace Linq
             PrintCollection("De namen van de steden:", cityNames);
 
             // Oefening: De namen van de steden in de USA, gesorteerd op naam. Transformatie van Location-s naar string-s. 
-            IEnumerable<string> citiesInUSA = null;
+            IEnumerable<string> citiesInUSA = placesVisited.Where(c => c.Country == "USA").Select(c => c.City).OrderBy(c => c);
             PrintCollection("De namen van de steden in de USA:", citiesInUSA);
 
             // transformatie van Location-s naar CityDistance-s, object initializer
-            IEnumerable<CityDistance> cityDistances = null;
+            IEnumerable<CityDistance> cityDistances = placesVisited.Select(
+                     c => new CityDistance
+                     {
+                         Name = c.City,
+                         Country = c.Country,
+                         DistanceInKm = (int)(c.Distance * 1.61)
+                     });
             PrintCollection("Afstanden in km:", cityDistances);
             Console.WriteLine();
 
             //voorbeeld met gebruik van var, IEnumerable<Location> wordt omgezet naar een type door de compiler bepaald...
             var cityList = placesVisited.Select(c => c.City);
+            Console.WriteLine($"----- Het var keyword -----");
             foreach (var city in cityList)
                 Console.WriteLine(city);
 
